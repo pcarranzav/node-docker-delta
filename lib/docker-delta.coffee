@@ -163,6 +163,10 @@ exports.applyDelta = (srcImage) ->
 						dstRoot
 					]
 					rsync = spawn('rsync', rsyncArgs)
+					rsync.stdout.on 'data', (data) ->
+						console.log("rsync stdout: #{data}")
+					rsync.stderr.on 'data', (data) ->
+						console.log("rsync stderr: #{data}")
 					deltaStream.pipe(rsync.stdin)
 
 					utils.waitPidAsync(rsync)
